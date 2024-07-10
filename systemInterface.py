@@ -61,6 +61,7 @@ class SysInterface:
     def __AlarmZoneActivated(self):
         """
         Alarm Activation for each zone(button) 
+        CheckOn/Off Intrusion()
         """
         if(self.__btnz1.is_pressed):
            self.__sevenSeg.Show1() 
@@ -92,6 +93,7 @@ class SysInterface:
     def __ActifZoneState(self):
         """
         Function which returns the state of a zone whent activated
+        CheckZ1..Z4 Intrusion()
         """
         if(self.__btnz1.is_pressed):
             #zone1 actif
@@ -126,13 +128,7 @@ class SysInterface:
         if(self.status == True ):
             self.__alarmSys.on()    
             
-
-
-
-
-   
-
-   
+ 
 
     def __init__(self,tk):
         self.__sevenSeg= SevenSeg(8,9,10,11,12,13,17,0,False)

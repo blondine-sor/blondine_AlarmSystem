@@ -11,7 +11,7 @@ from signal import pause
 class SysInterface:
 
 
-    def __Activate(self):
+    def __ActivateSys(self):
         """
         Function using the gpio button to activate and deactivate the Alarm System
         """
@@ -30,6 +30,32 @@ class SysInterface:
             self.lblsysStatus.config(text="Off", background="#FF4846")
             # eteint toute zone actif
             self.AllNeutralZone()
+
+
+    def __Activate(self):
+        """
+        Function using the gpio button to activate the Alarm System
+        """
+        if(self.status == False):
+            self.status = True
+            self.__alarmSys.on()
+            self.__sevenSeg.CountUp()
+            self.__sevenSeg.ShowA()
+            self.lblsysStatus.config(text="On", background="#64FF46")
+
+    def __Deactivate(self):
+        """
+        Function using the gpio button to deactivate the Alarm System
+        """
+        if(self.status == True):
+            self.status = False
+            self.__alarmSys.off()
+            self.__sevenSeg.CountDown( )
+            self.__sevenSeg.Show0()
+            self.lblsysStatus.config(text="Off", background="#FF4846")
+            # eteint toute zone actif
+            self.AllNeutralZone()
+
 
 
     def __AlarmZoneActivated(self):
@@ -98,9 +124,7 @@ class SysInterface:
          Function to reset alarm 
         """
         if(self.status == True ):
-            self.__alarmSys.on()
-        else:
-            pass    
+            self.__alarmSys.on()    
             
 
 
@@ -122,7 +146,7 @@ class SysInterface:
         self.__alarmSys = LED(2)
         self.status = False
         self.__sevenSeg.Show0()
-        self.__btn.when_pressed = self.__Activate
+        self.__btn.when_pressed = self.__ActivateSys
         self.__btnz1.when_pressed = self.__AlarmZoneActivated
         self.__btnz2.when_pressed = self.__AlarmZoneActivated
         self.__btnz3.when_pressed = self.__AlarmZoneActivated
@@ -139,7 +163,7 @@ class SysInterface:
         self.lblzone4 = Label(self.frameR,text="Z4",background="#5729b3",fg="white",borderwidth=20,padx=5,pady=5)
         self.lblsysStatus = Label(self.frameR,text="On/Off",background="#5729b3",fg="white",borderwidth=40,padx=5,pady=5)
         self.btnOn = Btntk(self.frameL,text="Activate",padx=10,pady=10,background ="#f7c6c7", command=lambda: self.__Activate())
-        self.btnOff = Btntk(self.frameL,text="Deactivate",padx=10,pady=10,background="#f7c6c7",command=lambda:self.__Activate())
+        self.btnOff = Btntk(self.frameL,text="Deactivate",padx=10,pady=10,background="#f7c6c7",command=lambda:self.__Deactivate())
         self.btnResetTk = Btntk(self.frameL,text="Reset",padx=10,pady=10,background="#f7c6c7", command=lambda: self.__Reset())
 
         self.header.grid(row=0, column=0,columnspan=6,padx=20,pady=20)
